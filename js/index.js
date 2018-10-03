@@ -1,3 +1,5 @@
+'use strict';
+
 // ----- link html with js
 // divs - containers
 var startContainer = document.getElementById('start-container');
@@ -7,18 +9,15 @@ var headerText = document.getElementById('header-text');
 // buttons
 var startButton = document.getElementById('startButton');
 var newGameButton = document.getElementById('newGameButton');
-var rockButton = document.getElementById('rockButton');
-var paperButton = document.getElementById('paperButton');
-var scissorsButton = document.getElementById('scissorsButton');
+
 // result boxes
 var resultBox = document.getElementById('resultBox');
 var scores = document.getElementById('result');
 
 // ---- define helper variables
-var playerMove; /*number*/
-var playerMoveName; /*description*/
-var computerMove; /*number*/
-var computerMoveName; /*description*/
+var playerMove;
+var computerMoveNum; /*for Math.random()*/
+var computerMove;
 var result;
 var resultDescription;
 var playerScore;
@@ -28,40 +27,38 @@ var rounds;
 
 // function for computer move
 var computerChoice = function () {
-  computerMove = Math.floor(Math.random() * 3) + 1;
-  if (computerMove==1) {
-    computerMoveName="ROCK";
-  }
-  else if (computerMove==2) {
-    computerMoveName="PAPER";
-  }
-  else if (computerMove==3) {
-    computerMoveName="SCISSORS"
-  }
+  computerMoveNum = Math.floor(Math.random() * 3) + 1;
+  if (computerMoveNum==1) {computerMove="ROCK";}
+  else if (computerMoveNum==2) {computerMove="PAPER";}
+  else if (computerMoveNum==3) {computerMove="SCISSORS"}
 }
+
 // function for result counting from computerMove and playerMove
 var resultCounting = function () {
   if (playerMove==computerMove) {
     result="DRAW: ";
   }
-  else if ((playerMove==1 && computerMove==2)||(playerMove==2 && computerMove==3)||(playerMove==3 && computerMove==1)) {
+  else if ((playerMove=="ROCK" && computerMove=="PAPER")||(playerMove=="PAPER" && computerMove=="SCISSORS")||(playerMove=="SCISSORS" && computerMove=="ROCK")) {
     result="YOU LOSE: ";
     computerScore++;
   }
-  else if ((playerMove==1 && computerMove==3)||(playerMove==2 && computerMove==1)||(playerMove==3 && computerMove==2)){
+  else if ((playerMove=="ROCK" && computerMove=="SCISSORS")||(playerMove=="PAPER" && computerMove=="ROCK")||(playerMove=="SCISSORS" && computerMove=="PAPER")){
     result="YOU WIN: ";
     playerScore++;
   }
+
   //adding played round
   roundsCounting++;
+
   //writing the results
-  resultDescription="#"+roundsCounting+" - "+result+"you chose "+playerMoveName+", computer chose "+computerMoveName+"<br>";
+  resultDescription="#"+roundsCounting+" - "+result+"you chose "+playerMove+", computer chose "+computerMove+"<br>";
   resultBox.innerHTML=resultDescription + resultBox.innerHTML;
 scores.innerHTML=playerScore+":"+computerScore;
   endingGame();
 }
 
 //function for ending the game
+
 var endingGame = function () {
   if (roundsCounting>=rounds) {
   containerMove.classList.add('unvisible');
@@ -78,7 +75,9 @@ var endingGame = function () {
 }
 
 //eventListener for start and newGame buttons
+
 startButton.addEventListener('click', function(){
+  
   rounds = Number(window.prompt('How many rounds you wanna play?'));
   if (isNaN(rounds)) {
   startContainer.classList.add('unvisible');
@@ -115,24 +114,16 @@ newGameButton.addEventListener('click', function(){
   headerText.innerHTML="Choose your move";
 });
 
-// ---- eventListeners for player buttons
-rockButton.addEventListener('click', function(){
-	playerMove = 1;
-  playerMoveName = "ROCK";
-  computerChoice ();
-  resultCounting ();
-});
+// ---- player move
 
-paperButton.addEventListener('click', function(){
-	playerMove = 2;
-  playerMoveName = "PAPER";
+var playerMoveFn = function () {
+  playerMove = this.getAttribute("data-move");
   computerChoice ();
   resultCounting ();
-});
+}
 
-scissorsButton.addEventListener('click', function(){
-	playerMove = 3;
-  playerMoveName = "SCISSORS";
-  computerChoice ();
-  resultCounting ();
-});
+var buttons = document.querySelectorAll(".player-move");
+
+for(var i = 0; i < buttons.length; i++) {
+  buttons[i].addEventListener('click', playerMoveFn);
+}
