@@ -1,0 +1,63 @@
+body {
+  background-color: #686868;
+background-image: linear-gradient(90deg, rgba(255,255,255,.07) 50%, transparent 50%),
+linear-gradient(90deg, rgba(255,255,255,.13) 50%, transparent 50%),
+linear-gradient(90deg, transparent 50%, rgba(255,255,255,.17) 50%),
+linear-gradient(90deg, transparent 50%, rgba(255,255,255,.19) 50%);
+background-size: 13px, 29px, 37px, 53px;
+}
+
+div[class$="container"] {
+  width: 500px;
+  margin: 0 auto;
+  text-align: center;
+  font-family: Montserrat;
+  background-color:rgba(255, 255, 255, 0.5);
+  padding: 10px 30px 30px 30px;
+  border-radius: 10px;
+}
+
+.container h1, .start-container h1 {
+  text-transform: uppercase;
+}
+
+[id*='Button'] {
+  font-size: 20px;
+  height: 50px;
+  background-color: white;
+  text-transform: uppercase;
+  border-color: black;
+  border-style: dotted;
+  border-radius: 10px;
+}
+.container [id*='Button'] {
+  width: 150px;
+}
+.start-container [id*='Button'] {
+  width: 100%;
+}
+#newGameButton {
+  width: 400px;
+  border-style: solid;
+  background-color: lightgray;
+}
+[id*='Button']:hover {
+  background-color: black;
+  color: white;
+}
+#newGameButton:hover {
+  color: red;
+}
+#result {
+  font-size: 25px;
+  padding: 10px;
+}
+#resultBox {
+  text-align: left;
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+.unvisible {
+  display: none;
+}
