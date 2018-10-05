@@ -20,10 +20,18 @@ var computerMoveNum; /*for Math.random()*/
 var computerMove;
 var result;
 var resultDescription;
-var playerScore;
-var computerScore;
-var roundsCounting;
 var rounds;
+
+
+// object for game params
+
+var params = {
+  playerScore: 0,
+  computerScore: 0,
+  roundsCounting: 0
+};
+
+
 
 // function for computer move
 var computerChoice = function () {
@@ -40,32 +48,32 @@ var resultCounting = function () {
   }
   else if ((playerMove=="ROCK" && computerMove=="PAPER")||(playerMove=="PAPER" && computerMove=="SCISSORS")||(playerMove=="SCISSORS" && computerMove=="ROCK")) {
     result="YOU LOSE: ";
-    computerScore++;
+    params.computerScore++;
   }
   else if ((playerMove=="ROCK" && computerMove=="SCISSORS")||(playerMove=="PAPER" && computerMove=="ROCK")||(playerMove=="SCISSORS" && computerMove=="PAPER")){
     result="YOU WIN: ";
-    playerScore++;
+    params.playerScore++;
   }
 
   //adding played round
-  roundsCounting++;
+  params.roundsCounting++;
 
   //writing the results
-  resultDescription="#"+roundsCounting+" - "+result+"you chose "+playerMove+", computer chose "+computerMove+"<br>";
+  resultDescription="#"+params.roundsCounting+" - "+result+"you chose "+playerMove+", computer chose "+computerMove+"<br>";
   resultBox.innerHTML=resultDescription + resultBox.innerHTML;
-scores.innerHTML=playerScore+":"+computerScore;
+scores.innerHTML=params.playerScore+":"+params.computerScore;
   endingGame();
 }
 
 //function for ending the game
 
 var endingGame = function () {
-  if (roundsCounting>=rounds) {
+  if (params.roundsCounting>=rounds) {
   containerMove.classList.add('unvisible');
-    if (playerScore>computerScore) {
+    if (params.playerScore>params.computerScore) {
     headerText.innerHTML="Congratulations, you win! :-)";
     }
-    else if (playerScore<computerScore) {
+    else if (params.playerScore<params.computerScore) {
      headerText.innerHTML="You lose :-("; 
     }
     else {
@@ -100,11 +108,11 @@ startButton.addEventListener('click', function(){
   container.classList.remove('unvisible');
   containerMove.classList.remove('unvisible');
   headerText.innerHTML="Choose your move";
-  playerScore=0;
-  computerScore=0;
-  roundsCounting=0;
+  params.playerScore=0;
+  params.computerScore=0;
+  params.roundsCounting=0;
   resultBox.innerHTML="";
- scores.innerHTML=playerScore+":" +computerScore;
+ scores.innerHTML=params.playerScore+":" +params.computerScore;
   }
 });
 
