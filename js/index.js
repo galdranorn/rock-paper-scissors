@@ -21,21 +21,7 @@ var resultDescription;
 var rounds;
 var playerName;
 
-var resultsTableBody = "";
-var endModalBody = `
-    <table>
-      <thead>
-        <tr>
-          <th>No.</th>
-          <th>Player move</th>
-          <th>Computer move</th>
-          <th>Round result</th>
-          <th>Game result</th>
-        </tr>
-      </thead>
-      <tbody>${resultsTableBody}</tbody>
-    </table>
-  `;
+
 
 // ---- object for game params
 
@@ -53,7 +39,6 @@ function dontStartGame (){
   container.classList.remove('invisible');
   containerMove.classList.add('invisible');
   headerText.innerHTML="Wrong value - you need to put a number which cannot be negative or equal 0!";
-  resultBox.innerHTML="";
   scores.innerHTML="";
   }
 function startGame (){
@@ -64,7 +49,6 @@ function startGame (){
   params.playerScore=0;
   params.computerScore=0;
   params.roundsCounting=0;
-  resultBox.innerHTML="";
   scores.innerHTML=params.playerScore+":" +params.computerScore;
   }
 function startModal (){
@@ -104,8 +88,7 @@ function playerMoveFn () {
   playerMove = this.getAttribute("data-move");
   computerChoice ();
   resultCounting ();
-
-  }
+}
 var buttons = document.querySelectorAll(".player-move");
 
 for(var i = 0; i < buttons.length; i++) {
@@ -115,21 +98,27 @@ for(var i = 0; i < buttons.length; i++) {
 
 // ---- RESULT COUNTING
 function resultCounting () {
-  if (playerMove==computerMove) {result="DRAW: ";}
+  if (playerMove==computerMove) {result="DRAW";}
   else if ((playerMove=="ROCK" && computerMove=="PAPER")||(playerMove=="PAPER" && computerMove=="SCISSORS")||(playerMove=="SCISSORS" && computerMove=="ROCK")) {
-    result="YOU LOSE: ";
+    result="YOU LOSE";
     params.computerScore++;
     }
   else if ((playerMove=="ROCK" && computerMove=="SCISSORS")||(playerMove=="PAPER" && computerMove=="ROCK")||(playerMove=="SCISSORS" && computerMove=="PAPER")){
-    result="YOU WIN: ";
+    result="YOU WIN";
     params.playerScore++;
     }
+  var objectResults = {
+    number: params.roundsCounting+1,
+    playerMove: playerMove,
+    computerMove: computerMove,
+    roundResult: result,
+    gameResult: params.playerScore+":"+params.computerScore,
+  }
+    params.progress[params.roundsCounting] = objectResults;
   //adding played round
   params.roundsCounting++;
   //writing the results
-  resultDescription="#"+params.roundsCounting+" - "+result+"you chose "+playerMove+", computer chose "+computerMove+"<br>";
-  resultBox.innerHTML=resultDescription + resultBox.innerHTML;
-scores.innerHTML=params.playerScore+":"+params.computerScore;
+  scores.innerHTML=params.playerScore+":"+params.computerScore;
   endingGame();
 }
 
@@ -137,6 +126,8 @@ scores.innerHTML=params.playerScore+":"+params.computerScore;
 
 function endingGame() {
   if (params.roundsCounting>=rounds) {
+  endModal();
+  params.progress = [];
   containerMove.classList.add('invisible');
     if (params.playerScore>params.computerScore) {
       headerText.innerHTML="Congratulations, you win! :-)";
@@ -146,7 +137,7 @@ function endingGame() {
       }
     else {
         headerText.innerHTML="The game finished with the draw";
-      }
+    }
     }
   //endModal();
 }
@@ -156,10 +147,8 @@ function endingGame() {
 // ----- START MODAL
 
 function modal(title, body, callback, btnOk = "Ok", btnClose = "Close") {
-  
   var fog = document.createElement('div');
   fog.className = 'fog';
-  
   var modal = document.createElement('div');
   modal.className = 'modal';
   modal.innerHTML = `
@@ -172,32 +161,67 @@ function modal(title, body, callback, btnOk = "Ok", btnClose = "Close") {
      <div class="modal-footer">
         <button class="btn-ok">${btnOk}</button>
         <button class="btn-close">${btnClose}</button>
-     </div>
-  `;
-  
+     </div>`;
   modal.querySelector(".btn-close").addEventListener("click", function() {
     fog.remove();
   })
-  
    modal.querySelector(".btn-ok").addEventListener("click", function() {
      callback();
      fog.remove();
    })
-  
   fog.appendChild(modal);
-  
   document.body.appendChild(fog);
 }
 
 
 // ----- RESULTS TABLE
 
-/*function endModal (){
-  var row = resultsTableBody.insertRow(0);
-  row.insertCell(0).innerHTML = `${roundsCounting}`;
-  row.insertCell(1).innerHTML = `${playerMove}`;
-  row.insertCell(2).innerHTML = `${computerMove}`;
-  row.insertCell(3).innerHTML = `${playerScore}:${computerScore}`;
-  row.insertCell(4).innerHTML = `x`;
-  console.log(row);
-}*/
+// ----------------------------------------------------------------
+// -----------TU JEST PROBLEM -------------------------------------
+
+function endModal (){
+    createResultsTable();
+   // makeTableFromProgress();
+  // modal('The game finished!', resultsTable, function() {
+  //})
+}
+
+
+function createResultsTable () {
+  var resultsTableEl = document.createElement('div');
+  resultsTableEl.innerHTML = `
+  <table>
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Player move</th>
+          <th>Computer move</th>
+          <th>Round result</th>
+          <th>Game result</th>
+        </tr>
+      </thead>
+      <tbody id="resultsTable"></tbody>
+    </table>`;
+}
+
+// ----------------------------------------------------------------
+// ----------- KONIEC PROBLEMU -------------------------------------
+
+function makeTableFromProgress() { // DZIAŁA
+    var resultsTable = document.querySelector('#resultsTable');
+    var rows = params.progress.length;
+    for (i = 0; i<rows; i++) {
+      var row = resultsTable.insertRow(i);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      var cell3 = row.insertCell(2);
+      var cell4 = row.insertCell(3);
+      var cell5 = row.insertCell(4);
+    cell1.innerHTML = params.progress[i]['number'];
+    cell2.innerHTML = params.progress[i]['playerMove'];
+    cell3.innerHTML = params.progress[i]['computerMove'];
+    cell4.innerHTML = params.progress[i]['roundResult'];
+    cell5.innerHTML = params.progress[i]['gameResult'];
+  }
+};
+

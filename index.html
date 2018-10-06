@@ -5,32 +5,29 @@
   <meta charset="UTF-8">
   <title>Rock-paper-scissors</title>
   <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet"> 
 </head>
 
 <body>
 
-  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet"> 
-
-<div class="start-container" id="start-container">
-  <h1>Rock-paper-scissors</h1>
-  <button id="startButton">Start the game</button>
-</div>
-
-<div id="container" class="container invisible">
-    <h1 id="header-text">Choose your move</h1>
-  <div id="container-move">
-    <button id="rockButton" data-move="ROCK" class="player-move">Rock</button>
-    <button id="paperButton" data-move="PAPER" class="player-move">Paper</button>
-    <button id="scissorsButton" data-move="SCISSORS" class="player-move">Scissors</button>
+  <div class="start-container" id="start-container">
+    <h1>Rock-paper-scissors</h1>
+    <button id="startButton">Start the game</button>
   </div>
-  <div id="result"></div>
-  <button id="newGameButton">New game</button>
-</div>
 
-<div id="resultBox" class="invisible"></div>
+  <div id="container" class="container invisible">
+      <h1 id="header-text">Choose your move</h1>
+    <div id="container-move">
+      <button id="rockButton" data-move="ROCK" class="player-move">Rock</button>
+      <button id="paperButton" data-move="PAPER" class="player-move">Paper</button>
+      <button id="scissorsButton" data-move="SCISSORS" class="player-move">Scissors</button>
+    </div>
+    <div id="result"></div>
+    <button id="newGameButton">New game</button>
+  </div>
   
-</div> 
-
+  <div id="resultBox">
+  </div>
   
 
 <script  src="js/index.js"></script>
