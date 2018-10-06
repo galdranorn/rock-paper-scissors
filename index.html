@@ -16,7 +16,7 @@
   <button id="startButton">Start the game</button>
 </div>
 
-<div id="container" class="container unvisible">
+<div id="container" class="container invisible">
     <h1 id="header-text">Choose your move</h1>
   <div id="container-move">
     <button id="rockButton" data-move="ROCK" class="player-move">Rock</button>
@@ -24,11 +24,13 @@
     <button id="scissorsButton" data-move="SCISSORS" class="player-move">Scissors</button>
   </div>
   <div id="result"></div>
-  <div id="resultBox"></div>
   <button id="newGameButton">New game</button>
-</div>   
 </div>
+
+<div id="resultBox" class="invisible"></div>
   
+</div> 
+
   
 
 <script  src="js/index.js"></script>
