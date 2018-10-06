@@ -85,13 +85,15 @@ div[class$="container"] {
   width: 50%;
   background: #fff;
   min-width: 200px;
+  max-height: 50%;
   border-radius: 20px;
   padding: 20px;
   text-align: center;
   position: fixed;
-  top: 200px;
+  top: 100px;
   left: 25%;
   font-family: Montserrat;
+  overflow: auto;
   form {
     margin: 20px;
     input {
@@ -109,6 +111,19 @@ div[class$="container"] {
     &:hover {
       background: black;
       color: white;
+    }
+  }
+}
+
+.resultsTable {
+  table {
+    width: 100%;
+    font-size: 8px;
+    tr {
+      display: block;
+      th {
+        display: inline-block;
+      }
     }
   }
 }

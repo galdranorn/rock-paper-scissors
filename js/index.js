@@ -176,20 +176,11 @@ function modal(title, body, callback, btnOk = "Ok", btnClose = "Close") {
 
 // ----- RESULTS TABLE
 
-// ----------------------------------------------------------------
-// -----------TU JEST PROBLEM -------------------------------------
-
 function endModal (){
-    createResultsTable();
-   // makeTableFromProgress();
-  // modal('The game finished!', resultsTable, function() {
-  //})
-}
-
-
-function createResultsTable () {
-  var resultsTableEl = document.createElement('div');
-  resultsTableEl.innerHTML = `
+  // creating table
+  var resultsTable = document.createElement('div');
+  resultsTable.className = 'resultsTable';
+  resultsTable.innerHTML = `
   <table>
       <thead>
         <tr>
@@ -200,18 +191,20 @@ function createResultsTable () {
           <th>Game result</th>
         </tr>
       </thead>
-      <tbody id="resultsTable"></tbody>
+      <tbody id="resultsTableBody"></tbody>
     </table>`;
+  document.body.appendChild(resultsTable);
+  makeTableFromProgress();
+  document.body.removeChild(resultsTable);
+  modal('The game finished!', resultsTable.innerHTML, function() {});
 }
 
-// ----------------------------------------------------------------
-// ----------- KONIEC PROBLEMU -------------------------------------
 
-function makeTableFromProgress() { // DZIAŁA
-    var resultsTable = document.querySelector('#resultsTable');
+function makeTableFromProgress() {
+    var resultsTableBody = document.querySelector('#resultsTableBody');
     var rows = params.progress.length;
     for (i = 0; i<rows; i++) {
-      var row = resultsTable.insertRow(i);
+      var row = resultsTableBody.insertRow(i);
       var cell1 = row.insertCell(0);
       var cell2 = row.insertCell(1);
       var cell3 = row.insertCell(2);
